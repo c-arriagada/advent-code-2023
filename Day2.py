@@ -65,4 +65,31 @@ def possibleGames(input):
             sumOfIds += (index+1)
     return sumOfIds   
 
-print(possibleGames(inputData))
+# print(possibleGames(inputData))
+
+## *********** PART 2 ***********************
+# input:[{blue: 3, red:4}, {red:1, green:2, blue:6}, {green:2}]
+# output: int
+def powerPerGame(listOfObjs):
+    fewestNumOfCubes = {"blue": 0, "red": 0, "green": 0}
+    for obj in listOfObjs:
+        for color in obj.keys():
+            if obj[color] > fewestNumOfCubes[color]:
+                fewestNumOfCubes[color]= obj[color]
+    listOfFewestNumCubes = [num for num in fewestNumOfCubes.values()]
+    totalPower = 1
+    for num in listOfFewestNumCubes:
+        totalPower = totalPower * num
+    print(totalPower)
+    return totalPower
+
+# input: [['3 blue, 4 red', '1 red, 2 green, 6 blue', '2 green']]
+# output: int
+def totalPower(input):
+    games = [listOfDicts(item) for item in input]
+    sumOfPowers = 0
+    for game in games:
+        sumOfPowers += powerPerGame(game)
+    return sumOfPowers
+
+print(totalPower(inputData))

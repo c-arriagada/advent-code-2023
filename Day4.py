@@ -60,4 +60,49 @@ def totalValCards(data):
         totalPoints += cardPoints
     return totalPoints
 
-print(totalValCards(listOfCards))
+# print(totalValCards(listOfCards))
+
+
+# ************************* PART 2 ***********************
+
+def totalMatchingNumbers(data):
+    cards = parseData(data)
+    print("cards", cards)
+    matchingNumsDict = {}
+    # index = 1
+    for index, nums in enumerate(cards):
+        winningNumbers = nums[0]
+        myNumbers = nums[1]
+        cardWinningNums = howManyWinningNums(winningNumbers, myNumbers)
+        matchingNumsDict[index + 1] = cardWinningNums
+        # index += 1
+    return matchingNumsDict
+
+def totalCardsDict(dict):
+    cardsTotal = {}
+    # adding original scratchcard to dict
+    for index, val in enumerate(dict.values()):
+        cardsTotal[index + 1] = 1
+    # iterate over cardsTotal dictionary
+    # add extra cards to cardsTotal dictionary based on matching numbers in the current card, find matching numbers in dict
+    for key in cardsTotal:
+        cardNum = cardsTotal[key]
+        # print('cardNum', cardNum)
+        while cardNum>0:
+            extraCards = dict[key]
+            # print('extraCards', extraCards)
+            if extraCards > 0:
+                for val in range(1, dict[key] + 1):
+                    # print('rangeLimit', dict[key] + 1)
+                    cardsTotal[key + val] += 1
+            cardNum -= 1
+    return cardsTotal
+
+def totalCards(dict):
+    numTotalCards = 0
+    for num in dict.values():
+        numTotalCards += num
+    return numTotalCards
+
+print(totalCards(totalCardsDict(totalMatchingNumbers(listOfCards))))
+           

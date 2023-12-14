@@ -15,7 +15,7 @@ for line in file.read().splitlines():
 file.close()
 
 # input: ["Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53", "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19"]
-# output: [[[41, 48, 83, 86, 17],[83, 86, 6, 31, 17, 9, 48, 53]], [[13 32 20 16 61],[61, 30, 68, 82, 17, 32, 24, 19]]
+# output: [[[41, 48, 83, 86, 17],[83, 86, 6, 31, 17, 9, 48, 53]], [[13 32 20 16 61],[61, 30, 68, 82, 17, 32, 24, 19]]]
 def parseData(data):
     card = [line.split(':') for line in data]
     nums = [item[1].split('|') for item in card]
@@ -31,6 +31,7 @@ def parseData(data):
 
 # input: [41, 48, 83, 86, 17] [83, 86, 6, 31, 17, 9, 48, 53]
 # output: int -> 4
+# could use sets to find matching numbers
 def howManyWinningNums(winNums, myNums):
     counter = 0
     for num in winNums:
@@ -65,9 +66,21 @@ def totalValCards(data):
 
 # ************************* PART 2 ***********************
 
-def totalMatchingNumbers(data):
-    cards = parseData(data)
-    print("cards", cards)
+# def totalMatchingNumbers(data):
+#     cards = parseData(data)
+#     matchingNumsDict = {}
+#     # index = 1
+#     for index, nums in enumerate(cards):
+#         winningNumbers = nums[0]
+#         myNumbers = nums[1]
+#         cardWinningNums = howManyWinningNums(winningNumbers, myNumbers)
+#         matchingNumsDict[index + 1] = cardWinningNums
+#         # index += 1
+#     return matchingNumsDict
+
+# input: [[[41, 48, 83, 86, 17],[83, 86, 6, 31, 17, 9, 48, 53]], [[13 32 20 16 61],[61, 30, 68, 82, 17, 32, 24, 19]]]
+# output: {1:4, 2:2}
+def matchingNumbersDict(cards):
     matchingNumsDict = {}
     # index = 1
     for index, nums in enumerate(cards):
@@ -104,5 +117,11 @@ def totalCards(dict):
         numTotalCards += num
     return numTotalCards
 
-print(totalCards(totalCardsDict(totalMatchingNumbers(listOfCards))))
+def getTotalCards(data):
+    cards = parseData(data)
+    matchingNumsDict = matchingNumbersDict(cards)
+    totalCardsDictionary = totalCardsDict(matchingNumsDict)
+    return totalCards(totalCardsDictionary)
+
+print(getTotalCards(listOfCards))
            
